@@ -1,0 +1,13 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+godot = "0.2.4"
+spacetimedb-sdk = "1.0"
+hex = "0.4"
+tokio = "1.44.0"
+
+[lib]
+crate-type = ["cdylib"]
