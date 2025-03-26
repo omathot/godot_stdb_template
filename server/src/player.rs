@@ -25,6 +25,13 @@ pub struct Player {
     last_connection: Timestamp,
 }
 
+#[table(name=circle, public)]
+pub struct Circle {
+    #[primary_key]
+    entity_id: u32,
+    player_id: u32,
+}
+
 // still need the struct that builds the relation between player and entity like Circle in example
 
 #[reducer(client_connected)]

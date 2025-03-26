@@ -1,7 +1,7 @@
+use crate::DbManager;
 use crate::module_bindings::*;
 use godot::prelude::*;
 use spacetimedb_sdk::{DbContext, Identity};
-use std::sync::Arc;
 
 #[derive(GodotClass)]
 #[class(base=Node)]
@@ -43,13 +43,6 @@ impl PlayerModule {
         }
     }
 
-    // // deprecate already lol
-    // #[func]
-    // pub fn set_connection_parent(&mut self, parent: Gd<Node>) {
-    //     self.connection = Some(parent);
-    //     godot_print!("PlayerModule: Connection parent set!");
-    // }
-
     // private helper
     fn get_db_connection(&self) -> Option<Gd<Node>> {
         if let Some(parent) = &self.connection {
@@ -69,25 +62,31 @@ impl PlayerModule {
         false
     }
 
-    #[func]
-    pub fn set_player_name(&self, name: GString) -> bool {
-        if let Some(mut parent) = self.get_db_connection() {
-            let args = name.to_variant();
-            let result = parent.call(
-                "call_reducer",
-                &[
-                    GString::from("set_player_name").to_variant(),
-                    args.to_variant(),
-                ],
-            );
-            if let Ok(success) = result.try_to::<bool>() {
-                godot_print!("Set player name to: {}", name);
-                return success;
-            }
-        }
-        godot_error!("Cannot set playing name: No connection");
-        false
-    }
+    // #[func]
+    // pub fn set_player_name(&self, name: GString) -> bool {
+    //     if let Some(mut parent) = self.get_db_connection() {
+    //         if let Ok(db_manager) = parent.try_cast::<DbManager>() {
+    //             if let Some(connection) = db_manager.get_connection() {
+    //                 match module_bindings::set_player_name(connection, name.to_string()) {
+    //                     Ok(_) => {
+    //                         godot_print!("Set player name to {}", name);
+    //                         return true;
+    //                     }
+    //                     Err(e) => {
+    //                         godot_error!("Failed to set player name {:?}", name);
+    //                         return false;
+    //                     }
+    //                 }
+    //             } else {
+    //                 godot_error!("No active database connection!");
+    //             }
+    //         } else {
+    //             godot_error!("Parent is not DbManager!");
+    //         }
+    //     }
+    //     godot_error!("Cannot set player name: No connection");
+    //     false
+    // }
 
     #[func]
     pub fn get_my_player(&self) -> Dictionary {

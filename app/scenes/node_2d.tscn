@@ -6,3 +6,5 @@
 script = ExtResource("1_6e84v")
 
 [node name="DbManager" type="DbManager" parent="."]
+
+[node name="PlayerModule" type="PlayerModule" parent="."]
